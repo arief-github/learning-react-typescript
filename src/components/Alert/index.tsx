@@ -1,11 +1,18 @@
 import { useState } from "react"
 import Props from "../../types/props"
 
-export function Alert({ type = "information", heading, children, closable }: Props) {
+export function Alert({ type = "information", heading, children, closable, onClose }: Props) {
     const [visible, setVisible] = useState<boolean>(true)
-    
+
     if(!visible) {
         return null
+    }
+
+    const handleCloseClick = () => {
+      setVisible(false)
+      if(onClose) {
+        onClose()
+      }
     }
 
     return (
@@ -20,7 +27,7 @@ export function Alert({ type = "information", heading, children, closable }: Pro
             </div>
             {
                 closable ? (
-                    <button aria-label="Close">
+                    <button aria-label="Close" onClick={handleCloseClick}>
                         <span role="img" aria-label="Close">
                             ❌
                         </span>
