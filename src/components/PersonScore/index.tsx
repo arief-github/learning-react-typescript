@@ -1,4 +1,10 @@
-import { useEffect, useReducer, useRef, useMemo } from "react";
+// hooks import
+import { useEffect, useReducer, useRef, useMemo, useCallback } from "react";
+
+// component import
+import { Reset } from "../Reset";
+
+// type import
 import { getPerson } from "../../types/getPerson";
 import State from "../../types/State";
 import Action from "../../types/Action";
@@ -30,14 +36,17 @@ function sillyExpensiveFunction() {
     return sum;
 }
 
+
 export function PersonScore() {
     const [{ name, score, loading }, dispatch] = useReducer(reducer, {
         name: undefined,
         score: 0,
         loading: false
     })
-
+    
     const addButtonRef = useRef<HTMLButtonElement>(null)
+    
+    const handleReset = useCallback(() => dispatch({ type: 'reset' }), [])
 
     useEffect(() => {
         getPerson().then(({ name }) => {
@@ -64,7 +73,7 @@ export function PersonScore() {
 
             <button ref={addButtonRef} onClick={() => { dispatch({ type: 'increment' }) }}>Add</button>
             <button onClick={() => { dispatch({ type: 'decrement' }) }}>Subtract</button>
-            <button onClick={() => { dispatch({ type: 'reset' }) }} >Reset</button>
+            <Reset onClick={handleReset}/>
         </>
     )
 }
