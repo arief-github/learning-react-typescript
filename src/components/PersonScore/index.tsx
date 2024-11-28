@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef } from "react";
+import { useEffect, useReducer, useRef, useMemo } from "react";
 import { getPerson } from "../../types/getPerson";
 import State from "../../types/State";
 import Action from "../../types/Action";
@@ -16,6 +16,18 @@ function reducer(state: State, action: Action): State {
         default:
             return state                
     }
+}
+
+function sillyExpensiveFunction() {
+    console.log("Executing Silly Function")
+
+    let sum: number = 0;
+
+    for (let i = 0; i < 10000; i++) {
+        sum += i;
+    }
+
+    return sum;
 }
 
 export function PersonScore() {
@@ -40,12 +52,16 @@ export function PersonScore() {
         }
     }, [loading])
 
+    const expensiveCalculation = useMemo(() => sillyExpensiveFunction(), []) 
 
     if(loading) return <div>Loading ...</div>
 
     return (
         <>
             <h3>{name} -_- {score}</h3>
+
+            <p>{expensiveCalculation}</p>
+
             <button ref={addButtonRef} onClick={() => { dispatch({ type: 'increment' }) }}>Add</button>
             <button onClick={() => { dispatch({ type: 'decrement' }) }}>Subtract</button>
             <button onClick={() => { dispatch({ type: 'reset' }) }} >Reset</button>
