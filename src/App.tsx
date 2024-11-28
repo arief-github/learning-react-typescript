@@ -4,7 +4,7 @@ import './App.css'
 function App() {
   return (
     <div className="App">
-      <Alert type="warning" heading="warning" closable>Everything is !fine</Alert>
+      <Alert type="information" heading="success" closable>Everything is fine</Alert>
     </div>
   )
 
