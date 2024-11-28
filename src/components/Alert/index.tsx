@@ -1,5 +1,4 @@
 import Props from "../../types/props"
-
 export function Alert({ type = "information", heading, children }: Props) {
     return (
         <>
