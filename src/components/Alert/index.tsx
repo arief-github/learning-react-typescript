@@ -1,6 +1,6 @@
 import { useState } from "react"
 import Props from "../../types/props"
-import './styles/Alert.css'
+import styles from '../Alert/styles/Alert.module.css'
 
 export function Alert({ type = 'information', heading, children, closable, onClose }: Props) {
     const [visible, setVisible] = useState(true);
@@ -16,25 +16,25 @@ export function Alert({ type = 'information', heading, children, closable, onClo
       }
     }
     return (
-      <div className={`container ${type}`}>
-        <div className="header">
+      <div className={`${styles.container} ${styles[type]}`}>
+        <div className={`${styles.header}`}>
           <span
             role="img"
             aria-label={type === 'warning' ? 'Warning' : 'Information'}
-            className="header-icon"
+            className={`${styles.headerIcon}`}
           >
             {type === 'warning' ? '⚠' : 'ℹ️'}
           </span>
-          <span className="header-text">{heading}</span>
+          <span className={`${styles.headerText}`}>{heading}</span>
           {closable && (
-            <button aria-label="Close" onClick={handleCloseClick} className="close-button">
+            <button aria-label="Close" onClick={handleCloseClick} className={`${styles.closeButton}`}>
               <span role="img" aria-label="Close">
                 Close ❌
               </span>
             </button>
           )}
         </div>
-        <div className="content">{children}</div>
+        <div className={`${styles.content}`}>{children}</div>
       </div>
     );
 }
