@@ -1,16 +1,17 @@
 import { FormEvent } from "react";
-import { NavLink, useSearchParams } from "react-router-dom";
+import { NavLink, useSearchParams, useNavigate } from "react-router-dom";
 import logo from '../../assets/react.svg'
 
 export function Header() {
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams] = useSearchParams()
+    const navigate = useNavigate()
 
     function handleSearchSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
         const search = formData.get('search') as string;
-        setSearchParams({ search })
+        navigate(`products/?search=${search}`)
     }
 
     return (
