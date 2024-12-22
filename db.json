@@ -1,0 +1,24 @@
+{
+  "posts": [
+    {
+      "title": "Getting started with fetch",
+      "description": "How to interact with backend APIs using fetch",
+      "id": "1"
+    },
+    {
+      "title": "Getting started with useEffect",
+      "description": "How to use React's useEffect hook for interacting with backend APIs",
+      "id": "2"
+    },
+    {
+      "id": "fd74",
+      "title": "Madtari",
+      "description": "Untuk Obat Laper"
+    },
+    {
+      "id": "58ef",
+      "title": "OASIS",
+      "description": "Untuk Obat Laper"
+    }
+  ]
+}

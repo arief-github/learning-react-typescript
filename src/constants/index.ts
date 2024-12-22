@@ -1,0 +1,1 @@
+export const REACT_APP_API_URL: string = "http://localhost:3001/posts";
