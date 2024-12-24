@@ -1,43 +1,47 @@
-import { useEffect, useState } from 'react'
-import { getPosts } from '../posts/getPosts'
-import { PostData, NewPostData } from '../../types/post_data'
+import { Suspense } from 'react'
+import { useLoaderData, Await } from 'react-router-dom'
+import { NewPostData, PostData } from '../../types/post_data'
 import { savePost } from '../posts/savePost'
 import { PostsList } from '../PostList'
 import { NewPostForm } from '../NewPostForm'
 
-export function PostPage() {
-    const [isLoading, setIsLoading] = useState(true)
-    const [posts, setPosts] = useState<PostData[]>([])
+type Data = {
+    posts: PostData[]
+}
 
-    useEffect(() => {
-        let cancel = false;
-
-        getPosts().then((data) => {
-            if(!cancel) {
-                setPosts(data)
-                setIsLoading(false)
-            }
-        })
-
-        return () => {
-            cancel = true
-        }
-    }, [])
-
-    if(isLoading) {
-        return <div className='w-96 mx-auto mt-6'>Loading...</div>
+export function assertIsData(data: unknown): asserts data is Data {
+    if (typeof data !== 'object') {
+        throw new Error("Data isnt an object")
     }
 
+    if (data === null) {
+        throw new Error(" Data is null ")
+    }
+
+    if (!('posts' in data)) {
+        throw new Error("Data doesn't contain posts")
+    }
+}
+
+export function PostPage() {
+    const data = useLoaderData()
+    assertIsData(data)
+
     async function handleSave(newPostData: NewPostData) {
-        const newPost = await savePost(newPostData)
-        setPosts([newPost, ...posts])
+        await savePost(newPostData)
     }
 
     return (
         <div className='w-96 mx-auto mt-6'>
             <h2 className='text-xl text-slate-900 font-bold'>Posts</h2>
             <NewPostForm onSave={handleSave} />
-            <PostsList posts={posts} />
+            <Suspense fallback={<div>Fetching...</div>}>
+                <Await resolve={data.posts}>
+                    {(posts) => (
+                        <PostsList posts={posts} />
+                    )}
+                </Await>
+            </Suspense>
         </div>
     )
 }
