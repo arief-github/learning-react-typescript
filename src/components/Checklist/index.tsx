@@ -1,13 +1,14 @@
 import { ComponentPropsWithoutRef, ReactNode, useState } from 'react'
 import { useChecked } from '../../hooks/useChecked'
 import { IdValue } from '../../types/props'
+import { isChecked } from '../../helpers/isChecked'
 
 type Props<Data> = {
     data: Data[],
     id: keyof Data,
     primary: keyof Data,
     secondary: keyof Data,
-    renderItem?: (item: Data) => ReactNode
+    renderItem?: (item: Data, isChecked: boolean) => ReactNode
     checkedIds?: IdValue[]
     onCheckedIdsChange?: (checkedIds: IdValue[]) => void
 } & ComponentPropsWithoutRef<'ul'>
@@ -24,11 +25,11 @@ export function CheckList<Data>({
         <ul className="bg-gray-300 rounded p-10" {...ulProps}>
             {data.map((item) => {
 
-                if (renderItem) {
-                    return renderItem(item)
-                }
-
                 const idValue = item[id] as string | number
+
+                if (renderItem) {
+                    return renderItem(item, isChecked(resolvedCheckedIds, idValue))
+                }
 
                 if(typeof idValue !== 'string' && typeof idValue !== 'number') {
                     return null
