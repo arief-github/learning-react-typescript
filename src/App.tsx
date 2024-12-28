@@ -1,10 +1,18 @@
-import { Alert } from "./components/Alert";
 import './App.css'
+import { CheckList } from './components/Checklist';
 
 function App() {
   return (
     <div className="App">
-      <Alert type="success" heading="success" closable>Everything is fine</Alert>
+      <CheckList
+        data={[
+          { id: 1, name: 'Lucy', role: 'Manager'},
+          { id: 2, name: 'Bob', role: 'Developer'},
+        ]}
+        id="id"
+        primary="name"
+        secondary="role"
+      />
     </div>
   )
 
