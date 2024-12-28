@@ -1,7 +1,21 @@
 import './App.css'
+import { useState } from 'react';
 import { CheckList } from './components/Checklist';
+import { IdValue } from './types/props';
 
 function App() {
+  const [checkedId, setCheckedId] = useState<IdValue | null>(null)
+
+  const handleCheckedIsChange = (newCheckedIds: IdValue[]) => {
+    const newCheckedIdArr = newCheckedIds.filter((id) => id !== checkedId)
+
+    if (newCheckedIdArr.length === 1) {
+      setCheckedId(newCheckedIdArr[0])
+    } else {
+      setCheckedId(null)
+    }
+  }
+
   return (
     <div className="App">
       <CheckList
@@ -24,6 +38,8 @@ function App() {
         //     <div className='text-slate-500'>{item.role}</div>
         //   </li>
         // )}
+        checkedIds={checkedId === null ? [] : [checkedId]}
+        onCheckedIdsChange={handleCheckedIsChange} 
       />
     </div>
   )

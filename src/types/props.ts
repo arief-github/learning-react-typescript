@@ -1,6 +1,6 @@
 import React from "react";
 
-type Props = {
+export type Props = {
     type?: string;
     heading: string;
     children: React.ReactNode,
@@ -8,4 +8,4 @@ type Props = {
     onClose?: () => void
 }
 
-export default Props
+export type IdValue = string | number 
